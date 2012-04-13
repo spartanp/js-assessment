@@ -26,11 +26,18 @@ define([ 'use!underscore' ], function(_) {
     });
 
     it("you should be able to alter the context in which a method runs", function() {
+      fn = function() {
+        return a.sayIt.apply(b);
+      }
       // define a function for fn so that the following will pass
       expect(fn()).to.be('Yo, Rebecca!');
     });
 
     it("you should be able to alter multiple objects at once", function() {
+      fn = function(g) {
+        C.prototype.greeting = g;
+      }
+      
       // define a function for fn so that the following will pass
       var obj1 = new C('Rebecca'),
           obj2 = new C('Melissa'),
@@ -44,6 +51,15 @@ define([ 'use!underscore' ], function(_) {
     });
 
     it("you should be able to iterate over an object's 'own' properties", function() {
+      fn = function(o) {
+        var rv = [];
+        for (var i in o) {
+          if (o.hasOwnProperty(i)) {
+            rv.push(i + ": " + o[i]);
+          }
+        }
+        return rv;
+      }
       // define a function for fn so that the following will pass
       var C = function() {
         this.foo = 'bar';
